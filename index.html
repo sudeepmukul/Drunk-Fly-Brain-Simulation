@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FLYBRAIN LAB — Artificial Fly Neural Simulation (MVP)</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header id="topbar">
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <span class="brand-title">FLYBRAIN LAB</span>
+          <span class="brand-sub">MVP · DEMO CIRCUIT (artificial, not biological)</span>
+        </div>
+        <div class="sim-controls">
+          <button id="btn-start">▶ START</button>
+          <button id="btn-pause">⏸ PAUSE</button>
+          <button id="btn-reset">⟲ RESET</button>
+          <label class="speed-label">Speed
+            <select id="sel-speed">
+              <option value="0.1">0.1x</option>
+              <option value="0.5">0.5x</option>
+              <option value="1" selected>1x</option>
+              <option value="2">2x</option>
+            </select>
+          </label>
+          <button id="btn-follow" class="toggle">Follow Fly: OFF</button>
+        </div>
+      </header>
+
+      <main id="layout">
+        <section id="viewport-wrap">
+          <canvas id="scene3d"></canvas>
+          <div id="hud">
+            <div id="sensor-bar">
+              <span class="hud-title">SENSORS</span>
+              <span>L <b id="sensor-l">0.00</b></span>
+              <div class="meter"><div id="meter-l"></div></div>
+              <span>C <b id="sensor-c">0.00</b></span>
+              <div class="meter"><div id="meter-c"></div></div>
+              <span>R <b id="sensor-r">0.00</b></span>
+              <div class="meter"><div id="meter-r"></div></div>
+              <span class="hud-title">DIST <b id="metric-dist">–</b></span>
+            </div>
+          </div>
+          <div id="toast"></div>
+        </section>
+
+        <aside id="sidepanel">
+          <div class="panel">
+            <h2>BRAIN <span class="tag">live · demo circuit</span></h2>
+            <canvas id="brain2d" width="340" height="300"></canvas>
+            <div class="hint">Click a neuron to inspect · click a wire to edit weight</div>
+          </div>
+
+          <div class="panel" id="neuron-inspector">
+            <h2>NEURON INSPECTOR</h2>
+            <div id="neuron-info">No neuron selected. Click one in the brain view.</div>
+            <div id="neuron-controls" style="display:none">
+              <label>Bias <input id="neuron-bias" type="range" min="-2" max="2" step="0.01" value="0" /> <span id="neuron-bias-val"></span></label>
+              <div class="btnrow">
+                <button id="btn-disable">Disable</button>
+                <button id="btn-enable">Enable</button>
+              </div>
+              <div class="btnrow">
+                <button id="btn-stim">Stimulate</button>
+                <button id="btn-reset-act">Reset activity</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" id="conn-inspector">
+            <h2>CONNECTION INSPECTOR</h2>
+            <div id="conn-info">No connection selected. Click a wire.</div>
+            <div id="conn-controls" style="display:none">
+              <label>Weight <input id="conn-weight" type="range" min="-3" max="3" step="0.01" value="0" /> <span id="conn-weight-val"></span></label>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>NEURAL EXPERIMENT</h2>
+            <label>Noise <input id="sld-noise" type="range" min="0" max="1" step="0.01" value="0" /> <span id="val-noise">0.00</span></label>
+            <label>Global stimulation <input id="sld-global" type="range" min="0" max="1" step="0.01" value="0" /> <span id="val-global">0.00</span></label>
+            <label>Transmission delay <input id="sld-delay" type="range" min="0" max="500" step="10" value="0" /> <span id="val-delay">0 ms</span></label>
+            <label class="drunk">🍺 DRUNK FLY (neural perturbation — NOT real alcohol biology) <input id="sld-drunk" type="range" min="0" max="1" step="0.01" value="0" /> <span id="val-drunk">0.00</span></label>
+          </div>
+
+          <div class="panel">
+            <h2>METRICS</h2>
+            <div class="metrics-grid">
+              <div>Target distance <b id="m-dist">–</b></div>
+              <div>Avg speed <b id="m-speed">–</b></div>
+              <div>Neural activity <b id="m-neural">–</b></div>
+              <div>Sim time <b id="m-time">–</b></div>
+              <div>FPS <b id="m-fps">–</b></div>
+              <div>Target reached <b id="m-reached">NO</b></div>
+            </div>
+            <div class="btnrow">
+              <button id="btn-baseline">Snapshot baseline</button>
+              <button id="btn-clear-traj">Clear trajectory</button>
+            </div>
+            <div id="baseline-info">No baseline snapshot yet.</div>
+          </div>
+        </aside>
+      </main>
+
+      <footer id="bottombar">
+        <span>Fly speed <b id="m-fly-speed">–</b></span>
+        <span>Turning <b id="m-turn">–</b></span>
+        <span>Motor L <b id="m-motor-l">–</b> · Motor R <b id="m-motor-r">–</b></span>
+        <span id="status">paused</span>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
